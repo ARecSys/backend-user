@@ -36,7 +36,7 @@ from routes.routes_auth import *
 from routes.routes_articles import *
 from routes.routes_fav import *
 
-app.run(host='0.0.0.0', port=8080)
+# app.run(host='0.0.0.0', port=8080)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
