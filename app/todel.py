@@ -1,29 +1,8 @@
-import psycopg2
-# Update connection string information 
-
-sslmode = "require"
-host="db-arecsys.postgres.database.azure.com"
-dbname="postgres"
-user="arecsys"
-password="Engineer1!"
-
-# Construct connection string
-conn_string = "host={0} user={1} dbname={2} password={3} sslmode={4}".format(host, user, dbname, password, sslmode)
-conn = psycopg2.connect(conn_string) 
-print("Connection established")
-cursor = conn.cursor()
-# Drop previous table of same name if one exists
-cursor.execute("DROP TABLE IF EXISTS inventory;")
-print("Finished dropping table (if existed)")
-# Create a table
-cursor.execute("CREATE TABLE inventory (id serial PRIMARY KEY, name VARCHAR(50), quantity INTEGER);")
-print("Finished creating table")
-# Insert some data into the table
-cursor.execute("INSERT INTO inventory (name, quantity) VALUES (%s, %s);", ("banana", 150))
-cursor.execute("INSERT INTO inventory (name, quantity) VALUES (%s, %s);", ("orange", 154))
-cursor.execute("INSERT INTO inventory (name, quantity) VALUES (%s, %s);", ("apple", 100))
-print("Inserted 3 rows of data")
-# Clean up
-conn.commit()
-cursor.close()
-conn.close()
+import jwt
+import os
+key="os.environ['SECRET_KEY']"
+payload={'public_id': "user.public_id", 'exp' : 34435523}
+token = jwt.encode(payload, key)
+print (token)
+decoded = jwt.decode(token, key) # works in PyJWT >= v2.0
+print (decoded)

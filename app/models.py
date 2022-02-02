@@ -1,7 +1,38 @@
-from app import db
+from flask_sqlalchemy import  SQLAlchemy
+from dataclasses import dataclass
 
-class UserMod(db.Model):
-    id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
+
+db = SQLAlchemy()
+
+@dataclass
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key = True) 
+    public_id = db.Column(db.String(50), unique = True) 
     email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(100))
-    name = db.Column(db.String(1000))
+    password = db.Column(db.String())
+
+
+@dataclass
+class Article(db.Model):
+    __tablename__ = 'articles_metadata'
+
+    id = db.Column(db.String(50), primary_key = True) 
+    doi = db.Column(db.String(100))
+    title = db.Column(db.String())
+    authors = db.Column(db.ARRAY(db.String))
+    keywords = db.Column(db.ARRAY(db.String))
+    fos =  db.Column(db.ARRAY(db.String))
+    references = db.Column(db.ARRAY(db.String))
+
+    def __repr__(self):
+        return "<Article(doi='%s', id='%s', title='%s', authors='%s')>" % (
+                                self.doi, self.id, self.title, self.authors )
+
+    def serialize(self):
+        return { 
+            "doi" : self.doi, 
+            "title" : self.title, 
+            "authors" : self.authors, 
+            "keywords" :  self.keywords, 
+            "fos" :  self.fos, 
+            "references" : self.references }
