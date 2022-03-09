@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
-from models import db
+from models import db, Favorite
 
 load_dotenv()
 
@@ -24,12 +24,17 @@ app.config['CORS_SUPPORTS_CREDENTIALS'] = True
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 app.config.from_object(os.environ['APP_SETTINGS'])
-#db.create_all()
+
 
 db.init_app(app)
 
+with app.app_context():
+    #Favorite.__table__.drop(db.engine) # code to drop a table while waiting to be able to drop it on azure studio
+    db.create_all()
+
 from routes.routes_auth import *
 from routes.routes_articles import *
+from routes.routes_fav import *
 
 app.run(host='0.0.0.0', port=8080)
 

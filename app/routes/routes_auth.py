@@ -80,15 +80,8 @@ def register():
     
     data = request.get_json()
    
-
-    
     email = data['email']
     password = data['password']
-
-    app.logger.info(json.dumps( request.get_json()))
-
-    app.logger.info(password)
-   
     
     user = User.query.filter_by(email = email).first() 
     if not user: 

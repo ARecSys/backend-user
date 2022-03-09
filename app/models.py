@@ -11,6 +11,29 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String())
 
+    def serialize(self):
+        return { 
+            "id" : self.id, 
+            "public_id" : self.public_id, 
+            "email" : self.email
+        }
+
+
+@dataclass
+class Favorite(db.Model):
+    __tablename__ = 'fav_articles'
+    id = db.Column(db.String(100), primary_key = True) 
+    user = db.Column(db.String(50)) 
+    doi = db.Column(db.String(100))
+    title = db.Column(db.String(100))
+
+    def serialize(self):
+        return { 
+            "user" : self.user, 
+            "doi" : self.doi,
+            "title" : self.title
+        }
+
 
 @dataclass
 class Article(db.Model):
