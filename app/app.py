@@ -35,6 +35,7 @@ with app.app_context():
 from routes.routes_auth import *
 from routes.routes_articles import *
 from routes.routes_fav import *
+from routes.routes_reco import *
 
 # app.run(host='0.0.0.0', port=8080)
 
