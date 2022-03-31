@@ -42,4 +42,4 @@ def get_article_neighbors(user):
     
    
     serialized_neighbors = [x.serialize() for x in neighbors]
-    return jsonify(serialized_neighbors ) 
+    return jsonify(serialized_neighbors) 

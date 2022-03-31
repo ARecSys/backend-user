@@ -1,6 +1,29 @@
+from asyncio.log import logger
+import logging
 from app import app
-from models import User, db
-from flask import request, jsonify
+from models import Recommandation, Article, Favorite, User, db
+from flask import request, jsonify, make_response
+from utils.auth import token_required
+
+
+
+@app.route('/api/reco/list', methods =['GET']) 
+@token_required
+def get_reco_list(user): 
+    public_id = user.public_id
+
+    recommandation = Recommandation.query.filter_by(user_id=public_id).first()
+
+    if not recommandation: 
+        
+        return make_response( 
+            'No favs',
+            401
+        ) 
+
+    return jsonify(recommandation.serialize()) 
+
+"""
 from utils.recommendation import send_msg_to_queue
 from utils.http_status_code import HttpStatusCode
 from utils.backend_status_code import BackendStatusCode
@@ -43,3 +66,4 @@ def msg():
                             "BackendStatusCode" : reco_sc
                         }
                     ), int ( http_sc )
+"""

@@ -1,5 +1,6 @@
 from flask_sqlalchemy import  SQLAlchemy
 from dataclasses import dataclass
+import json
 
 
 db = SQLAlchemy()
@@ -59,3 +60,19 @@ class Article(db.Model):
             "keywords" :  self.keywords, 
             "fos" :  self.fos, 
             "references" : self.references }
+
+@dataclass    
+class Recommandation( db.Model ):
+    __tablename__ = 'recommandations_fst'
+    user_id = db.Column( db.String(100), primary_key = True ) 
+    nodes = db.Column( db.ARRAY(db.String) )
+    edges = db.Column(db.String)
+    scores = db.Column(db.String)
+
+    def serialize(self):
+        return { 
+            "user" : self.user_id, 
+            "nodes" : self.nodes,
+            "edges" : json.loads(self.edges),
+            "scores" : json.loads(self.scores),
+        }

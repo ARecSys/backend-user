@@ -29,7 +29,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 db.init_app(app)
 
 with app.app_context():
-    #Favorite.__table__.drop(db.engine) # code to drop a table while waiting to be able to drop it on azure studio
+    #Favorite.__table__.drop(db.engine) # code to drop a table while waiting to be able to drop it directly on azure studio
     db.create_all()
 
 from routes.routes_auth import *
