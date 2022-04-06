@@ -31,6 +31,12 @@ def get_article_neighbors(user):
 
     article = Article.query.filter_by(doi = data["doi"]).first()
 
+    if not article.references:
+        return make_response( 
+            'No references', 
+            401
+        ) 
+    
     neighbors = Article.query.filter( Article.id.in_(article.references) ).all()
 
     if not neighbors: 

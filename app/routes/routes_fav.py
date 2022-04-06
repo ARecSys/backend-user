@@ -4,7 +4,7 @@ from app import app
 from models import Article, Favorite, User, db
 from flask import request, jsonify, make_response
 from utils.auth import token_required
-
+from utils.recommendation import send_msg_to_queue
 
 
 @app.route('/api/fav/list', methods =['GET']) 
@@ -50,6 +50,8 @@ def add_fav(user):
         db.session.add(favorite) 
         db.session.commit() 
     
+        send_msg_to_queue(public_id)
+
         return make_response('Successfully registered.', 201) 
 
     else: 
@@ -69,6 +71,8 @@ def del_fav(user):
         db.session.delete(favorite) 
         db.session.commit() 
     
+        send_msg_to_queue(public_id)
+
         return make_response('Successfully deleted.', 201) 
 
     else: 
